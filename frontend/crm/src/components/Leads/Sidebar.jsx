@@ -304,23 +304,21 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </div>
         </div>
         {hasActiveFilters && (
-          <div className="p-4 border
-ChatGPT
--t border-gray-200 bg-white">
-<button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
-Apply Filter
-</button>
-<button
-           className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 w-full mt-2"
-           onClick={handleClearFilters}
-         >
-Clear
-</button>
-</div>
-)}
-</div>
-</div>
-);
+          <div className="p-4 border-t border-gray-200 bg-white">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+            Apply Filter
+            </button>
+            <button
+            className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 w-full mt-2"
+            onClick={handleClearFilters}
+            >
+              Clear
+            </button>
+          </div>
+          )}
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;
