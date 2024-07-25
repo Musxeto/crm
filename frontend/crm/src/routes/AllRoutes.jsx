@@ -8,6 +8,7 @@ import Deals from '../pages/Deals';
 import Contacts from '../pages/Contacts';
 import Accounts from '../pages/Accounts';
 import Tasks from '../pages/Tasks';
+import CreateLeadPage from '../pages/CreateLeadPage';
 
 const AllRoutes = () => {
   return (
@@ -20,6 +21,8 @@ const AllRoutes = () => {
         <Route path="/deals" element={<Deals />} />
         <Route path="/leads" element={<Leads />} />
         <Route path="/reports" element={<Reports />} />
+        {/*Leads Routes*/}
+        <Route path="/leads/create-lead" element={<CreateLeadPage />} />
       </Routes>
   );
 }
