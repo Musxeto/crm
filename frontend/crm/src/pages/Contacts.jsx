@@ -1,19 +1,28 @@
-// src/pages/Contacts.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../components/Contacts/Sidebar'; // Create a Sidebar component for Contacts
-import ActionsDropdown from '../components/Leads/ActionDropdown'; // Create ActionsDropdown specific to Contacts
-import ContactsTable from '../components/Contacts/ContactsTable'; // Create a ContactsTable component
+import Sidebar from '../components/Sidebar';
+import { contactsFiltersConfig, contactsFieldsConfig } from '../configs/contactsSidebarConfig';
+import ActionsDropdown from '../components/ActionsDropdown';
+import ContactsTable from '../components/ContactsTable';
 import { BiFilter, BiPlus } from 'react-icons/bi';
 import contactsData from '../mock-data/contactsdata';
+
 const Contacts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const contacts = [...contactsData];
+  const handleApplyFilters = (filters, filterValues) => {
+    // Implement filter application logic
+  };
 
   return (
     <div className="flex">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+        filtersConfig={contactsFiltersConfig}
+        fieldsConfig={contactsFieldsConfig}
+        onApplyFilters={handleApplyFilters}
+      />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
         <header className="flex items-center justify-between mb-4">
           <button
@@ -32,7 +41,7 @@ const Contacts = () => {
             Create Contact
           </Link>
         </header>
-        <ContactsTable contacts={contacts} />
+        <ContactsTable contacts={contactsData} />
       </div>
     </div>
   );
