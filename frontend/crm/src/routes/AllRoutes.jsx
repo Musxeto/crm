@@ -9,6 +9,7 @@ import Contacts from '../pages/Contacts';
 import Accounts from '../pages/Accounts';
 import Tasks from '../pages/Tasks';
 import CreateLeadPage from '../pages/CreateLeadPage';
+import CreateContactPage from '../pages/CreateContactPage';
 
 const AllRoutes = () => {
   return (
@@ -21,8 +22,9 @@ const AllRoutes = () => {
         <Route path="/deals" element={<Deals />} />
         <Route path="/leads" element={<Leads />} />
         <Route path="/reports" element={<Reports />} />
-        {/*Leads Routes*/}
+        {/*Create Routes*/}
         <Route path="/leads/create-lead" element={<CreateLeadPage />} />
+        <Route path="/contacts/create-contact" element={<CreateContactPage />} />
       </Routes>
   );
 }

@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 
 export default function App() {
   return (
-    < div classname="bg-gray-100 min h-screen">
+    < div className="bg-gray-100 min h-screen">
       <BrowserRouter>
         <Navbar />
         <AllRoutes />

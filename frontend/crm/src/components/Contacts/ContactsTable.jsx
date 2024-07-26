@@ -1,30 +1,23 @@
+// src/components/Contacts/ContactsTable.js
 import React, { useMemo } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
 import PropTypes from 'prop-types';
 import { FaSort, FaSortUp, FaSortDown, FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa';
 
-const LeadsTable = ({ leads }) => {
+const ContactsTable = ({ contacts }) => {
   const columns = useMemo(() => [
-    { Header: 'Lead Name', accessor: 'leadName' },
-    { Header: 'Company', accessor: 'company' },
+    { Header: 'First Name', accessor: 'firstName' },
+    { Header: 'Last Name', accessor: 'lastName' },
     { Header: 'Email', accessor: 'email' },
-    { Header: 'Status', accessor: 'status' },
     { Header: 'Phone', accessor: 'phone' },
-    { Header: 'Mobile', accessor: 'mobile' },
+    { Header: 'Company', accessor: 'company' },
     { Header: 'City', accessor: 'city' },
     { Header: 'State', accessor: 'state' },
     { Header: 'Country', accessor: 'country' },
     { Header: 'Zip Code', accessor: 'zipCode' },
-    { Header: 'First Name', accessor: 'firstName' },
-    { Header: 'Last Name', accessor: 'lastName' },
-    { Header: 'Annual Revenue', accessor: 'annualRevenue' },
-    { Header: 'Lead Source', accessor: 'leadSource' },
-    { Header: 'Lead Owner', accessor: 'leadOwner' },
-    { Header: 'Created Time', accessor: 'createdTime' },
-    { Header: 'Modified Time', accessor: 'modifiedTime' },
   ], []);
 
-  const data = useMemo(() => leads || [], [leads]);
+  const data = useMemo(() => contacts || [], [contacts]);
 
   const {
     getTableProps,
@@ -49,7 +42,7 @@ const LeadsTable = ({ leads }) => {
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <div className="overflow-auto max-h-[calc(100vh-250px)] sm:min-h-full ">
+      <div className="overflow-auto max-h-[calc(100vh-250px)] sm:min-h-full">
         <table {...getTableProps()} className="min-w-full sm:max-w-fit bg-white border border-gray-200">
           <thead>
             {headerGroups.map(headerGroup => (
@@ -82,7 +75,7 @@ const LeadsTable = ({ leads }) => {
             {page.map(row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} className="hover:bg-gray-100">
+                <tr {...row.getRowProps()} className="hover:bg-gray-50">
                   {row.cells.map(cell => (
                     <td {...cell.getCellProps()} className="border-b px-2 py-1 text-sm sm:text-base">
                       {cell.render('Cell')}
@@ -94,46 +87,30 @@ const LeadsTable = ({ leads }) => {
           </tbody>
         </table>
       </div>
-
-      <div className="flex flex-row justify-between items-center py-4">
-        <div>
-        <div className="flex items-center space-x-2 mb-2">
-          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-light">
+      <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center space-x-2">
+          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="p-2 text-gray-600 hover:text-gray-800">
             <FaAngleDoubleLeft />
           </button>
-          <button onClick={() => previousPage()} disabled={!canPreviousPage} className="btn btn-light">
+          <button onClick={() => previousPage()} disabled={!canPreviousPage} className="p-2 text-gray-600 hover:text-gray-800">
             <FaAngleLeft />
           </button>
-          <button onClick={() => nextPage()} disabled={!canNextPage} className="btn btn-light">
+          <span>
+            Page {pageIndex + 1} of {pageOptions.length}
+          </span>
+          <button onClick={() => nextPage()} disabled={!canNextPage} className="p-2 text-gray-600 hover:text-gray-800">
             <FaAngleRight />
           </button>
-          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="btn btn-light">
+          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="p-2 text-gray-600 hover:text-gray-800">
             <FaAngleDoubleRight />
           </button>
         </div>
-        <span className="text-sm">
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>
-        </span>
-        <span className="text-sm">| Go to page:</span>
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(page);
-            }}
-            className="border px-2 py-1 rounded text-sm w-16"
-          />
-      </div>
         <select
           value={pageSize}
           onChange={e => setPageSize(Number(e.target.value))}
-          className="border px-2 py-1 rounded mt-2 text-sm"
+          className="p-2 border border-gray-300 rounded"
         >
-          {[10, 20, 30, 40, 50].map(size => (
+          {[10, 20, 30, 40].map(size => (
             <option key={size} value={size}>
               Show {size}
             </option>
@@ -144,8 +121,8 @@ const LeadsTable = ({ leads }) => {
   );
 };
 
-LeadsTable.propTypes = {
-  leads: PropTypes.array.isRequired,
+ContactsTable.propTypes = {
+  contacts: PropTypes.array.isRequired,
 };
 
-export default LeadsTable;
+export default ContactsTable;
