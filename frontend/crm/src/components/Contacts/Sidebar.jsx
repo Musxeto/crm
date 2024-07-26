@@ -1,29 +1,108 @@
-// src/components/Contacts/Sidebar.js
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const [filters, setFilters] = useState({
-    firstName: false,
-    lastName: false,
-    email: false,
-    phone: false,
-    company: false,
+    touchedRecords: false,
+    untouchedRecords: false,
+    recordAction: false,
+    relatedRecordsAction: false,
+    locked: false,
+    latestEmailStatus: false,
+    activities: false,
+    notes: false,
+    campaigns: false,
+    cadences: false,
+    annualRevenue: false,
     city: false,
-    state: false,
+    company: false,
+    convertedAccount: false,
+    convertedContact: false,
+    convertedDeal: false,
     country: false,
+    createdBy: false,
+    createdTime: false,
+    email: false,
+    emailOptOut: false,
+    fax: false,
+    firstName: false,
+    industry: false,
+    lastActivityTime: false,
+    lastName: false,
+    leadConversionTime: false,
+    leadName: false,
+    leadOwner: false,
+    leadSource: false,
+    leadStatus: false,
+    mobile: false,
+    modifiedBy: false,
+    modifiedTime: false,
+    noOfEmployees: false,
+    phone: false,
+    rating: false,
+    salutation: false,
+    secondaryEmail: false,
+    skypeID: false,
+    state: false,
+    street: false,
+    tag: false,
+    title: false,
+    twitter: false,
+    unsubscribedMode: false,
+    unsubscribedTime: false,
+    website: false,
     zipCode: false,
   });
 
   const [filterValues, setFilterValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    company: '',
+    touchedRecords: '',
+    untouchedRecords: '',
+    recordAction: '',
+    relatedRecordsAction: '',
+    locked: '',
+    latestEmailStatus: '',
+    activities: '',
+    notes: '',
+    campaigns: '',
+    cadences: '',
+    annualRevenue: '',
     city: '',
-    state: '',
+    company: '',
+    convertedAccount: '',
+    convertedContact: '',
+    convertedDeal: '',
     country: '',
+    createdBy: '',
+    createdTime: '',
+    email: '',
+    emailOptOut: '',
+    fax: '',
+    firstName: '',
+    industry: '',
+    lastActivityTime: '',
+    lastName: '',
+    leadConversionTime: '',
+    leadName: '',
+    leadOwner: '',
+    leadSource: '',
+    leadStatus: '',
+    mobile: '',
+    modifiedBy: '',
+    modifiedTime: '',
+    noOfEmployees: '',
+    phone: '',
+    rating: '',
+    salutation: '',
+    secondaryEmail: '',
+    skypeID: '',
+    state: '',
+    street: '',
+    tag: '',
+    title: '',
+    twitter: '',
+    unsubscribedMode: '',
+    unsubscribedTime: '',
+    website: '',
     zipCode: '',
   });
 
@@ -45,26 +124,106 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   const handleClearFilters = () => {
     setFilters({
-      firstName: false,
-      lastName: false,
-      email: false,
-      phone: false,
-      company: false,
+      touchedRecords: false,
+      untouchedRecords: false,
+      recordAction: false,
+      relatedRecordsAction: false,
+      locked: false,
+      latestEmailStatus: false,
+      activities: false,
+      notes: false,
+      campaigns: false,
+      cadences: false,
+      annualRevenue: false,
       city: false,
-      state: false,
+      company: false,
+      convertedAccount: false,
+      convertedContact: false,
+      convertedDeal: false,
       country: false,
+      createdBy: false,
+      createdTime: false,
+      email: false,
+      emailOptOut: false,
+      fax: false,
+      firstName: false,
+      industry: false,
+      lastActivityTime: false,
+      lastName: false,
+      leadConversionTime: false,
+      leadName: false,
+      leadOwner: false,
+      leadSource: false,
+      leadStatus: false,
+      mobile: false,
+      modifiedBy: false,
+      modifiedTime: false,
+      noOfEmployees: false,
+      phone: false,
+      rating: false,
+      salutation: false,
+      secondaryEmail: false,
+      skypeID: false,
+      state: false,
+      street: false,
+      tag: false,
+      title: false,
+      twitter: false,
+      unsubscribedMode: false,
+      unsubscribedTime: false,
+      website: false,
       zipCode: false,
     });
 
     setFilterValues({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      company: '',
+      touchedRecords: '',
+      untouchedRecords: '',
+      recordAction: '',
+      relatedRecordsAction: '',
+      locked: '',
+      latestEmailStatus: '',
+      activities: '',
+      notes: '',
+      campaigns: '',
+      cadences: '',
+      annualRevenue: '',
       city: '',
-      state: '',
+      company: '',
+      convertedAccount: '',
+      convertedContact: '',
+      convertedDeal: '',
       country: '',
+      createdBy: '',
+      createdTime: '',
+      email: '',
+      emailOptOut: '',
+      fax: '',
+      firstName: '',
+      industry: '',
+      lastActivityTime: '',
+      lastName: '',
+      leadConversionTime: '',
+      leadName: '',
+      leadOwner: '',
+      leadSource: '',
+      leadStatus: '',
+      mobile: '',
+      modifiedBy: '',
+      modifiedTime: '',
+      noOfEmployees: '',
+      phone: '',
+      rating: '',
+      salutation: '',
+      secondaryEmail: '',
+      skypeID: '',
+      state: '',
+      street: '',
+      tag: '',
+      title: '',
+      twitter: '',
+      unsubscribedMode: '',
+      unsubscribedTime: '',
+      website: '',
       zipCode: '',
     });
   };
@@ -90,6 +249,33 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="flex-1 overflow-y-auto p-4">
           <h2 className="text-lg font-semibold mb-4">Filters</h2>
           <div>
+            <h3 className="font-medium">System Defined Filters</h3>
+            <div className="mt-2">
+              {['touchedRecords', 'untouchedRecords', 'recordAction', 'relatedRecordsAction', 'locked', 'latestEmailStatus', 'activities', 'notes', 'campaigns', 'cadences'].map(filter => (
+                <div key={filter} className="mt-2">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={filters[filter]}
+                      onChange={() => handleFilterChange(filter)}
+                      className="mr-2"
+                    />
+                    {filter.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  </label>
+                  {filters[filter] && (
+                    <input
+                      type="text"
+                      value={filterValues[filter]}
+                      onChange={(e) => handleInputChange(filter, e.target.value)}
+                      className="w-full mt-1 p-2 border border-gray-300 rounded"
+                      placeholder={`Enter ${filter.replace(/([A-Z])/g, ' $1')}`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6">
             <h3 className="font-medium">Filter By Fields</h3>
             <div className="mt-2">
               {Object.keys(filters).map((filter) => (
@@ -101,7 +287,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                       onChange={() => handleFilterChange(filter)}
                       className="mr-2"
                     />
-                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                    {filter.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                   </label>
                   {filters[filter] && (
                     <input
@@ -109,7 +295,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                       value={filterValues[filter]}
                       onChange={(e) => handleInputChange(filter, e.target.value)}
                       className="w-full mt-1 p-2 border border-gray-300 rounded"
-                      placeholder={`Enter ${filter.charAt(0).toUpperCase() + filter.slice(1)}`}
+                      placeholder={`Enter ${filter.replace(/([A-Z])/g, ' $1')}`}
                     />
                   )}
                 </div>
@@ -120,16 +306,16 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         {hasActiveFilters && (
           <div className="p-4 border-t border-gray-200 bg-white">
             <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
-              Apply Filter
+            Apply Filter
             </button>
             <button
-              className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 w-full mt-2"
-              onClick={handleClearFilters}
+            className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 w-full mt-2"
+            onClick={handleClearFilters}
             >
               Clear
             </button>
           </div>
-        )}
+          )}
       </div>
     </div>
   );
