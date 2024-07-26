@@ -10,6 +10,7 @@ import Accounts from '../pages/Accounts';
 import Tasks from '../pages/Tasks';
 import CreateLeadPage from '../pages/CreateLeadPage';
 import CreateContactPage from '../pages/CreateContactPage';
+import CreateAccountPage from '../pages/CreateAccountPage';
 
 const AllRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AllRoutes = () => {
         {/*Create Routes*/}
         <Route path="/leads/create-lead" element={<CreateLeadPage />} />
         <Route path="/contacts/create-contact" element={<CreateContactPage />} />
+        <Route path="/accounts/create-account" element={<CreateAccountPage />} />
       </Routes>
   );
 }

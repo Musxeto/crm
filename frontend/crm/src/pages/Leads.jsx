@@ -11,7 +11,7 @@ const Leads = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleApplyFilters = (filters, filterValues) => {
-    // Implement filter application logic
+    
   };
 
   return (
