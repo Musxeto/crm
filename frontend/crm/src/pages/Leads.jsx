@@ -15,7 +15,7 @@ const Leads = () => {
   return (
     <div className="flex">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-      <div className="flex-1 p-6 bg-gray-100 min-h-screen">
+      <div className="flex-1 pt-6 pb-0 px-6  min-h-full">
         <header className="flex items-center justify-between mb-4">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}

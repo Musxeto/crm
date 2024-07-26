@@ -48,8 +48,8 @@ const LeadsTable = ({ leads }) => {
   );
 
   return (
-    <div className="overflow-x-auto">
-      <div className="max-w-screen-xl mx-auto">
+    <div className="max-w-screen-xl mx-auto">
+      <div className="overflow-auto max-h-[calc(100vh-250px)]">
         <table {...getTableProps()} className="min-w-full bg-white border border-gray-200">
           <thead>
             {headerGroups.map(headerGroup => (
@@ -93,52 +93,52 @@ const LeadsTable = ({ leads }) => {
             })}
           </tbody>
         </table>
+      </div>
 
-        <div className="flex flex-col items-center py-4">
-          <div className="flex items-center space-x-2 mb-2">
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-light">
-              <FaAngleDoubleLeft />
-            </button>
-            <button onClick={() => previousPage()} disabled={!canPreviousPage} className="btn btn-light">
-              <FaAngleLeft />
-            </button>
-            <button onClick={() => nextPage()} disabled={!canNextPage} className="btn btn-light">
-              <FaAngleRight />
-            </button>
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="btn btn-light">
-              <FaAngleDoubleRight />
-            </button>
-          </div>
-          <span className="text-sm">
-            Page{' '}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>
-          </span>
-          <div className="flex items-center space-x-2 mt-2">
-            <span className="text-sm">| Go to page:</span>
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
-              onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                gotoPage(page);
-              }}
-              className="border px-2 py-1 rounded text-sm w-16"
-            />
-          </div>
-          <select
-            value={pageSize}
-            onChange={e => setPageSize(Number(e.target.value))}
-            className="border px-2 py-1 rounded mt-2 text-sm"
-          >
-            {[10, 20, 30, 40, 50].map(size => (
-              <option key={size} value={size}>
-                Show {size}
-              </option>
-            ))}
-          </select>
+      <div className="flex flex-row justify-between items-center py-4">
+        <div>
+        <div className="flex items-center space-x-2 mb-2">
+          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-light">
+            <FaAngleDoubleLeft />
+          </button>
+          <button onClick={() => previousPage()} disabled={!canPreviousPage} className="btn btn-light">
+            <FaAngleLeft />
+          </button>
+          <button onClick={() => nextPage()} disabled={!canNextPage} className="btn btn-light">
+            <FaAngleRight />
+          </button>
+          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="btn btn-light">
+            <FaAngleDoubleRight />
+          </button>
         </div>
+        <span className="text-sm">
+          Page{' '}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>
+        </span>
+        <span className="text-sm">| Go to page:</span>
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={e => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
+            }}
+            className="border px-2 py-1 rounded text-sm w-16"
+          />
+      </div>
+        <select
+          value={pageSize}
+          onChange={e => setPageSize(Number(e.target.value))}
+          className="border px-2 py-1 rounded mt-2 text-sm"
+        >
+          {[10, 20, 30, 40, 50].map(size => (
+            <option key={size} value={size}>
+              Show {size}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
