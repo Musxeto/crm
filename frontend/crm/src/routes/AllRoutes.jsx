@@ -11,10 +11,14 @@ import Tasks from '../pages/Tasks';
 import CreateLeadPage from '../pages/CreateLeadPage';
 import CreateContactPage from '../pages/CreateContactPage';
 import CreateAccountPage from '../pages/CreateAccountPage';
+import CreateDealsPage from '../pages/CreateDealsPage';
+import CreateTasksPage from '../pages/CreateTasksPage';
+import CreateReportsPage from '../pages/CreateReportsPage';
 
 const AllRoutes = () => {
   return (
       <Routes>
+        {/*Main Pages*/}
         <Route path="/" element={<Home />} />
         <Route path='/tasks' element={<Tasks/>} />
         <Route path="/accounts" element={<Accounts />} />
@@ -27,6 +31,9 @@ const AllRoutes = () => {
         <Route path="/leads/create-lead" element={<CreateLeadPage />} />
         <Route path="/contacts/create-contact" element={<CreateContactPage />} />
         <Route path="/accounts/create-account" element={<CreateAccountPage />} />
+        <Route path="/accounts/create-deal" element={<CreateDealsPage />} />
+        <Route path="/accounts/create-task" element={<CreateTasksPage />} />
+        <Route path="/accounts/create-report" element={<CreateReportsPage />} />
       </Routes>
   );
 }
