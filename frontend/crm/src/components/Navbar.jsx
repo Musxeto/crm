@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBell, FaUser, FaCog } from 'react-icons/fa';
+import Settings from '../components/Settings';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Leads', path: '/leads' },
     { name: 'Contacts', path: '/contacts' },
     { name: 'Accounts', path: '/accounts' },
-    { name: 'Deals', path: '/deals' }, 
-    { name: 'Tasks', path:'/tasks'},
+    { name: 'Deals', path: '/deals' },
+    { name: 'Tasks', path: '/tasks' },
     { name: 'Reports', path: '/reports' },
-    { name: 'Analytics', path: '/analytics' }
+    { name: 'Analytics', path: '/analytics' },
+  ];
+
+  const notifications = [
+    { id: 1, message: 'New lead added: John Doe' },
+    { id: 2, message: 'Task "Follow up call" is due tomorrow' },
+    { id: 3, message: 'Deal "Big Corp" closed successfully' },
+    // Add more notifications as needed
   ];
 
   return (
@@ -22,7 +32,7 @@ const Navbar = () => {
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between">
             <NavLink to="/">
-            <h1 className="text-3xl text-white font-bold">CRM</h1>
+              <h1 className="text-3xl text-white font-bold">CRM</h1>
             </NavLink>
 
             {/* Mobile menu button */}
@@ -81,13 +91,48 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center mt-4 lg:mt-0">
-              <FaBell className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none" aria-label="Notifications" />
-              <FaCog className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none" aria-label="Settings" />
+              <div className="relative">
+                <button
+                  onClick={() => setNotificationsOpen(!notificationsOpen)}
+                  className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
+                  aria-label="Notifications"
+                >
+                  <FaBell />
+                  {notifications.length > 0 && (
+                    <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-600 rounded-full"></span>
+                  )}
+                </button>
+                {notificationsOpen && (
+                  <div className="absolute right-0 w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
+                    <div className="py-2">
+                      {notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className="px-4 py-2 border-b-2 border-gray-600 text-gray-600 hover:bg-gray-100"
+                        >
+                          {notification.message}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="relative">
+                <button
+                  onClick={() => setSettingsOpen(!settingsOpen)}
+                  className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
+                  aria-label="Settings"
+                >
+                  <FaCog />
+                </button>
+                {settingsOpen && <Settings />}
+              </div>
+
               <button type="button" className="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
                 <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
                   <FaUser className="object-cover w-full h-full" />
                 </div>
-
                 <h3 className="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">User</h3>
               </button>
             </div>

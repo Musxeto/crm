@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
-const ActionsDropdown = () => {
+const ActionsDropdown = ({ onAction }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleAction = (action) => {
+    setIsOpen(false);
+    if (onAction) {
+      onAction(action);
+    }
+  };
 
   return (
     <div className="relative">
@@ -18,7 +25,12 @@ const ActionsDropdown = () => {
           <ul className="list-none p-0 m-0">
             {['Mass Delete', 'Mass Update', 'Mass Convert', 'Manage Tags', 'Mass Email', 'Approve Leads', 'Add to Campaigns', 'Export Leads'].map(action => (
               <li key={action}>
-                <button className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">{action}</button>
+                <button
+                  onClick={() => handleAction(action)}
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                >
+                  {action}
+                </button>
               </li>
             ))}
           </ul>
