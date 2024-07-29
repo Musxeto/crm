@@ -1,0 +1,41 @@
+export const dealsFiltersConfig = [
+    { key: 'touchedRecords', label: 'Touched Records' },
+    { key: 'untouchedRecords', label: 'Untouched Records' },
+    { key: 'recordAction', label: 'Record Action' },
+    { key: 'relatedRecordsAction', label: 'Related Records Action' },
+    { key: 'locked', label: 'Locked' },
+    { key: 'latestEmailStatus', label: 'Latest Email Status' },
+    { key: 'activities', label: 'Activities' },
+    { key: 'notes', label: 'Notes' },
+    { key: 'campaigns', label: 'Campaigns' },
+    { key: 'cadences', label: 'Cadences' }
+  ];
+  
+  export const dealsFieldsConfig = [
+    { key: 'annualRevenue', label: 'Annual Revenue' },
+    { key: 'city', label: 'City' },
+    { key: 'company', label: 'Company' },
+    { key: 'country', label: 'Country' },
+    { key: 'createdBy', label: 'Created By' },
+    { key: 'createdTime', label: 'Created Time' },
+    { key: 'dateOfBirth', label: 'Date of Birth' },
+    { key: 'description', label: 'Description' },
+    { key: 'email', label: 'Email' },
+    { key: 'emailOptOut', label: 'Email Opt Out' },
+    { key: 'fax', label: 'Fax' },
+    { key: 'firstName', label: 'First Name' },
+    { key: 'industry', label: 'Industry' },
+    { key: 'lastName', label: 'Last Name' },
+    { key: 'leadOwner', label: 'Lead Owner' },
+    { key: 'leadStatus', label: 'Lead Status' },
+    { key: 'leadSource', label: 'Lead Source' },
+    { key: 'mailingCity', label: 'Mailing City' },
+    { key: 'mailingCountry', label: 'Mailing Country' },
+    { key: 'mailingState', label: 'Mailing State' },
+    { key: 'mailingStreet', label: 'Mailing Street' },
+    { key: 'mailingZip', label: 'Mailing Zip' },
+    { key: 'mobile', label: 'Mobile' },
+    { key: 'phone', label: 'Phone' },
+    { key: 'rating', label: 'Rating' },
+    { key: 'website', label: 'Website' }
+  ];
