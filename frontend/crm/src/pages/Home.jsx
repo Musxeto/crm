@@ -15,7 +15,7 @@ const Home = () => {
        <Charts />
        <RecentActivity />
        
-      </div>
+      </div> 
     </div>
   );
 };
