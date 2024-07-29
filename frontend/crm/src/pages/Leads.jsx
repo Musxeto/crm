@@ -13,7 +13,6 @@ const Leads = () => {
   const handleApplyFilters = (filters, filterValues) => {
     
   };
-
   return (
     <div className="flex">
       <Sidebar
