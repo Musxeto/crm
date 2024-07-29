@@ -29,6 +29,7 @@
     "react-router-dom": "^6.25.1",
     "react-select": "^5.8.0",
     "react-table": "^7.8.0",
+    "react-toastify": "^10.0.5",
     "rippleui": "^1.12.1"
   },
   "devDependencies": {

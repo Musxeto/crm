@@ -18,7 +18,7 @@ ChartJS.register(
 
 export default function App() {
   return (
-    < div className="bg-gray-100 min h-screen">
+    < div className="bg-gray-100 min-h-screen">
       <BrowserRouter>
         <Navbar />
         <AllRoutes />
