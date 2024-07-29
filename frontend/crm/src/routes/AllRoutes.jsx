@@ -13,7 +13,7 @@ import CreateContactPage from '../pages/CreateContactPage';
 import CreateAccountPage from '../pages/CreateAccountPage';
 import CreateDealsPage from '../pages/CreateDealsPage';
 import CreateTasksPage from '../pages/CreateTasksPage';
-import CreateReportsPage from '../pages/CreateReportsPage';
+import CreateReportPage from '../pages/CreateReportPage';
 
 const AllRoutes = () => {
   return (
@@ -33,7 +33,7 @@ const AllRoutes = () => {
         <Route path="/accounts/create-account" element={<CreateAccountPage />} />
         <Route path="/deals/create-deal" element={<CreateDealsPage />} />
         <Route path="/tasks/create-task" element={<CreateTasksPage />} />
-        <Route path="/reports/create-report" element={<CreateReportsPage />} />
+        <Route path="/reports/create-report" element={<CreateReportPage />} />
       </Routes>
   );
 }
