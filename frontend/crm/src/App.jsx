@@ -3,6 +3,18 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import AllRoutes from "./routes/AllRoutes";
 import { BrowserRouter } from "react-router-dom";
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, LineElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  LineElement,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
 
 export default function App() {
   return (
