@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-<<<<<<< HEAD
 import dealsData from '../mock-data/dealsdata';
 import DealsTable from '../components/DealsTable';
 import DealsKanban from '../components/DealsKanban';
@@ -19,19 +18,6 @@ const Deals = () => {
 
   const toggleViewMode = () => {
     setViewMode(viewMode === 'table' ? 'kanban' : 'table');
-=======
-import DealsTable from '../components/DealsTable'; 
-import ActionsDropdown from '../components/ActionsDropdown';
-import { BiFilter, BiPlus } from 'react-icons/bi';
-import dealsData from '../mock-data/dealsdata';
-import { dealsFieldsConfig,dealsFiltersConfig } from '../configs/dealsSidebarConfig';
-
-const Deals = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const handleApplyFilters = (filters, filterValues) => {
-    // Handle filter application
->>>>>>> 4da3ff272bb0c46b35ee98145fc1d769494e2e79
   };
 
   return (
@@ -53,7 +39,6 @@ const Deals = () => {
             Filters
           </button>
           <ActionsDropdown />
-<<<<<<< HEAD
           <div className="flex items-center space-x-2">
             <button
               onClick={toggleViewMode}
@@ -85,17 +70,6 @@ const Deals = () => {
         ) : (
           <DealsKanban />
         )}
-=======
-          <Link
-            to="/deals/create-deal"
-            className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
-          >
-            <BiPlus className="w-5 h-5 mr-2" />
-            Create Deal
-          </Link>
-        </header>
-        <DealsTable deals={dealsData} /> {/* Pass your deals data */}
->>>>>>> 4da3ff272bb0c46b35ee98145fc1d769494e2e79
       </div>
     </div>
   );

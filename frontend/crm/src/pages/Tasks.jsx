@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import dealsData from '../mock-data/dealsdata';
-import DealsTable from '../components/DealsTable';
-import DealsKanban from '../components/DealsKanban';
+import tasksData from '../mock-data/tasksdata'; // Create this mock data file for tasks
+import TasksTable from '../components/TasksTable'; // Create this component
+import TasksKanban from '../components/TasksKanban'; // Create this component
 import ActionsDropdown from '../components/ActionsDropdown';
 import { BiFilter, BiPlus, BiTable, BiLayout } from 'react-icons/bi';
-import { dealsFieldsConfig, dealsFiltersConfig } from '../configs/dealsSidebarConfig';
+import { tasksFieldsConfig, tasksFiltersConfig } from '../configs/tasksSidebarConfig'; // Create this config file
 
 const Tasks = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,8 +25,8 @@ const Tasks = () => {
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-        filtersConfig={dealsFiltersConfig}
-        fieldsConfig={dealsFieldsConfig}
+        filtersConfig={tasksFiltersConfig}
+        fieldsConfig={tasksFieldsConfig}
         onApplyFilters={handleApplyFilters}
       />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
@@ -57,18 +57,18 @@ const Tasks = () => {
               )}
             </button>
             <Link
-              to="/deals/create-deal"
+              to="/tasks/create-task"
               className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
             >
               <BiPlus className="w-5 h-5 mr-2" />
-              Create Deal
+              Create Task
             </Link>
           </div>
         </header>
         {viewMode === 'table' ? (
-          <DealsTable deals={dealsData} />
+          <TasksTable tasks={tasksData} />
         ) : (
-          <DealsKanban />
+          <TasksKanban />
         )}
       </div>
     </div>

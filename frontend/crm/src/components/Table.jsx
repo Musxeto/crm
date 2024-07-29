@@ -1,10 +1,25 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
 import PropTypes from 'prop-types';
 import { FaSort, FaSortUp, FaSortDown, FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa';
 
 const Table = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow, canPreviousPage, canNextPage, pageOptions, pageCount, gotoPage, nextPage, previousPage, setPageSize, state: { pageIndex, pageSize } } = useTable(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize }
+  } = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
     useSortBy,
     usePagination
@@ -16,9 +31,10 @@ const Table = ({ columns, data }) => {
         <table {...getTableProps()} className="min-w-full sm:max-w-fit bg-white border border-gray-200">
           <thead>
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th
+                    key={column.id}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     className="border-b px-2 py-1 text-left bg-gray-50 text-sm sm:text-base"
                   >
@@ -45,9 +61,9 @@ const Table = ({ columns, data }) => {
             {page.map(row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} className="hover:bg-gray-100">
+                <tr key={row.id} {...row.getRowProps()} className="hover:bg-gray-100">
                   {row.cells.map(cell => (
-                    <td {...cell.getCellProps()} className="border-b px-2 py-1 text-sm sm:text-base">
+                    <td key={cell.column.id} {...cell.getCellProps()} className="border-b px-2 py-1 text-sm sm:text-base">
                       {cell.render('Cell')}
                     </td>
                   ))}
