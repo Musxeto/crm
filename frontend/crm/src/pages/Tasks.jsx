@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import tasksData from '../mock-data/tasksdata'; // Create this mock data file for tasks
-import TasksTable from '../components/TasksTable'; // Create this component
-import TasksKanban from '../components/TasksKanban'; // Create this component
+import { tasksFieldsConfig, tasksFiltersConfig } from '../configs/tasksSidebarConfig';
+import TasksTable from '../components/TasksTable';
+import TasksKanban from '../components/TasksKanban';
 import ActionsDropdown from '../components/ActionsDropdown';
 import { BiFilter, BiPlus, BiTable, BiLayout } from 'react-icons/bi';
-import { tasksFieldsConfig, tasksFiltersConfig } from '../configs/tasksSidebarConfig'; // Create this config file
+import { FilterContext } from '../contexts/FilterContext';
+import tasksData from '../mock-data/tasksdata';
+import { applyFilters } from '../utils/filterUtils';
 
 const Tasks = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState('table');
+  const { filters, updateFilter } = useContext(FilterContext);
 
-  const handleApplyFilters = (filters, filterValues) => {
-    // Handle filters application
+  const handleApplyFilters = (filters) => {
+    updateFilter(filters);
   };
 
   const toggleViewMode = () => {
     setViewMode(viewMode === 'table' ? 'kanban' : 'table');
   };
+
+  const filteredTasks = applyFilters(tasksData, filters);
 
   return (
     <div className="flex">
@@ -66,7 +71,7 @@ const Tasks = () => {
           </div>
         </header>
         {viewMode === 'table' ? (
-          <TasksTable tasks={tasksData} />
+          <TasksTable tasks={filteredTasks} />
         ) : (
           <TasksKanban />
         )}

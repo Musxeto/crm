@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { leadsFiltersConfig, leadsFieldsConfig } from '../configs/leadsSidebarConfig';
-import { useFilters } from '../contexts/FilterContext'; // Ensure this path is correct
+import { useFilters } from '../contexts/FilterContext';
 
 const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
   const { filters, updateFilter, clearFilters } = useFilters();
   const [searchTerm, setSearchTerm] = useState('');
 
   const applyFilters = () => {
+    console.log('Applying filters:', filters); // Debugging
     onApplyFilters(filters);
   };
 
   const handleInputChange = (key, value) => {
+    console.log(`Updating filter: ${key} = ${value}`); // Debugging
     updateFilter(key, value);
   };
 
+  const handleCheckboxChange = (key) => {
+    const newValue = filters[key] === undefined ? '' : undefined;
+    console.log(`Toggling filter: ${key} = ${newValue}`); // Debugging
+    updateFilter(key, newValue);
+  };
+
   const handleClearFilters = () => {
+    console.log('Clearing filters'); // Debugging
     clearFilters();
   };
 
@@ -48,8 +57,8 @@ const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
                   <label className="flex items-center">
                     <input
                       type="checkbox"
-                      checked={!!filters[key]}
-                      onChange={(e) => updateFilter(key, e.target.checked ? '' : undefined)}
+                      checked={filters[key] !== undefined}
+                      onChange={() => handleCheckboxChange(key)}
                       className="mr-2"
                     />
                     {label}
@@ -57,7 +66,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
                   {filters[key] !== undefined && (
                     <input
                       type="text"
-                      value={filters[key]}
+                      value={filters[key] || ''}
                       onChange={(e) => handleInputChange(key, e.target.value)}
                       className="w-full mt-1 p-2 border border-gray-300 rounded"
                       placeholder={`Enter ${label}`}
@@ -76,8 +85,8 @@ const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
                   <label className="flex items-center">
                     <input
                       type="checkbox"
-                      checked={!!filters[key]}
-                      onChange={(e) => updateFilter(key, e.target.checked ? '' : undefined)}
+                      checked={filters[key] !== undefined}
+                      onChange={() => handleCheckboxChange(key)}
                       className="mr-2"
                     />
                     {label}
@@ -85,7 +94,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
                   {filters[key] !== undefined && (
                     <input
                       type="text"
-                      value={filters[key]}
+                      value={filters[key] || ''}
                       onChange={(e) => handleInputChange(key, e.target.value)}
                       className="w-full mt-1 p-2 border border-gray-300 rounded"
                       placeholder={`Enter ${label}`}

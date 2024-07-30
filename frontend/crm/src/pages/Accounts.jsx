@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import AccountsTable from '../components/AccountsTable'; 
-import { BiFilter, BiPlus } from 'react-icons/bi';
 import Sidebar from '../components/Sidebar';
-import accountsData from '../mock-data/accountsdata';
+import {accountsFiltersConfig,accountsFieldsConfig} from '../configs/accountsSidebarCongif'
+import AccountsTable from '../components/AccountsTable';
 import ActionsDropdown from '../components/ActionsDropdown';
+import { BiFilter, BiPlus } from 'react-icons/bi';
+import { FilterContext } from '../contexts/FilterContext';
+import accountsData from '../mock-data/accountsdata';
+import { applyFilters } from '../utils/filterUtils';
+
 const Accounts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { filters, updateFilter } = useContext(FilterContext);
+  const [filteredAccounts, setFilteredAccounts] = useState(accountsData);
 
+  useEffect(() => {
+    // Apply filters using the utility function
+    const updatedData = applyFilters(accountsData, filters);
+    setFilteredAccounts(updatedData);
+  }, [filters]);
 
   return (
     <div className="flex">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+        filtersConfig={accountsFiltersConfig}
+        fieldsConfig={accountsFieldsConfig}
+        onApplyFilters={updateFilter}
+      />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
         <header className="flex items-center justify-between mb-4">
           <button
@@ -30,7 +47,7 @@ const Accounts = () => {
             Create Account
           </Link>
         </header>
-        <AccountsTable accounts={accountsData} />
+        <AccountsTable accounts={filteredAccounts} />
       </div>
     </div>
   );

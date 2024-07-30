@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import dealsData from '../mock-data/dealsdata';
+import { dealsFieldsConfig, dealsFiltersConfig } from '../configs/dealsSidebarConfig';
 import DealsTable from '../components/DealsTable';
 import DealsKanban from '../components/DealsKanban';
 import ActionsDropdown from '../components/ActionsDropdown';
 import { BiFilter, BiPlus, BiTable, BiLayout } from 'react-icons/bi';
-import { dealsFieldsConfig, dealsFiltersConfig } from '../configs/dealsSidebarConfig';
+import { FilterContext } from '../contexts/FilterContext';
+import dealsData from '../mock-data/dealsdata';
+import { applyFilters } from '../utils/filterUtils';
 
 const Deals = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState('table');
+  const { filters, updateFilter } = useContext(FilterContext);
 
-  const handleApplyFilters = (filters, filterValues) => {
-    // Handle filters application
+  const handleApplyFilters = (filters) => {
+    updateFilter(filters);
   };
 
   const toggleViewMode = () => {
     setViewMode(viewMode === 'table' ? 'kanban' : 'table');
   };
+
+  const filteredDeals = applyFilters(dealsData, filters);
 
   return (
     <div className="flex">
@@ -66,7 +71,7 @@ const Deals = () => {
           </div>
         </header>
         {viewMode === 'table' ? (
-          <DealsTable deals={dealsData} />
+          <DealsTable deals={filteredDeals} />
         ) : (
           <DealsKanban />
         )}

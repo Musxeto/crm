@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { contactsFiltersConfig, contactsFieldsConfig } from '../configs/contactsSidebarConfig';
-import ActionsDropdown from '../components/ActionsDropdown';
 import ContactsTable from '../components/ContactsTable';
+import ActionsDropdown from '../components/ActionsDropdown';
 import { BiFilter, BiPlus } from 'react-icons/bi';
+import { FilterContext } from '../contexts/FilterContext';
 import contactsData from '../mock-data/contactsdata';
+import { applyFilters } from '../utils/filterUtils';
 
 const Contacts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { filters, updateFilter } = useContext(FilterContext);
+  const [filteredContacts, setFilteredContacts] = useState(contactsData);
 
-  const handleApplyFilters = (filters, filterValues) => {
-    // Implement filter application logic
-  };
+  useEffect(() => {
+    // Apply filters using the utility function
+    const updatedData = applyFilters(contactsData, filters);
+    setFilteredContacts(updatedData);
+  }, [filters]);
 
   return (
     <div className="flex">
@@ -21,7 +27,7 @@ const Contacts = () => {
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         filtersConfig={contactsFiltersConfig}
         fieldsConfig={contactsFieldsConfig}
-        onApplyFilters={handleApplyFilters}
+        onApplyFilters={updateFilter}
       />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
         <header className="flex items-center justify-between mb-4">
@@ -41,7 +47,7 @@ const Contacts = () => {
             Create Contact
           </Link>
         </header>
-        <ContactsTable contacts={contactsData} />
+        <ContactsTable contacts={filteredContacts} />
       </div>
     </div>
   );

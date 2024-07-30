@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { leadsFiltersConfig, leadsFieldsConfig } from '../configs/leadsSidebarConfig';
 import ActionsDropdown from '../components/ActionsDropdown';
 import LeadsTable from '../components/LeadsTable';
 import { BiFilter, BiPlus } from 'react-icons/bi';
+import { FilterContext } from '../contexts/FilterContext';
 import leadsData from '../mock-data/leadsdata';
+import { applyFilters } from '../utils/filterUtils';
 
 const Leads = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { filters, updateFilter } = useContext(FilterContext);
   const [filteredLeads, setFilteredLeads] = useState(leadsData);
-  const [filters, setFilters] = useState({});
 
-  const handleApplyFilters = (filters) => {
-    setFilters(filters);
-  
-    let updatedData = leadsData;
-  
-    if (filters.touchedRecords !== undefined) {
-      updatedData = updatedData.filter(lead => lead.touchedRecords === filters.touchedRecords);
-    }
-    if (filters.untouchedRecords !== undefined) {
-      updatedData = updatedData.filter(lead => lead.untouchedRecords === filters.untouchedRecords);
-    }
-    if (filters.city !== undefined){
-      updatedData = updatedData.filter(lead =>lead.city === filters.city)
-    }
+  useEffect(() => {
+    console.log('Filters applied:', filters); 
+    const updatedData = applyFilters(leadsData, filters);
     setFilteredLeads(updatedData);
-  };
+  }, [filters]);
 
   return (
     <div className="flex">
@@ -36,7 +27,7 @@ const Leads = () => {
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         filtersConfig={leadsFiltersConfig}
         fieldsConfig={leadsFieldsConfig}
-        onApplyFilters={handleApplyFilters}
+        onApplyFilters={updateFilter}
       />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
         <header className="flex items-center justify-between mb-4">
