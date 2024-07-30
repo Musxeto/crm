@@ -3,7 +3,7 @@ import Board from '@asseinfo/react-kanban';
 import '@asseinfo/react-kanban/dist/styles.css';
 import dealsData from '../mock-data/dealsdata';
 
-const generateKanbanColumns = (deals) => {
+const generateKanbanColumns = (data) => {
   const columns = {
     'Qualification': [],
     'Negotiation': [],
@@ -41,10 +41,10 @@ const generateKanbanColumns = (deals) => {
   }));
 };
 
-const DealsKanban = () => {
+const DealsKanban = ({data}) => {
   return (
     <Board
-      initialBoard={{ columns: generateKanbanColumns(dealsData) }}
+      initialBoard={{ columns: generateKanbanColumns(data) }}
       allowAddCard={{ on: 'top' }}
     />
   );

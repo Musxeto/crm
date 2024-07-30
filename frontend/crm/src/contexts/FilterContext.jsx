@@ -1,17 +1,17 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useCallback, useContext } from 'react';
 
 const FilterContext = createContext();
 
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({});
 
-  const updateFilter = (key, value) => {
+  const updateFilter = useCallback((key, value) => {
     setFilters(prevFilters => ({ ...prevFilters, [key]: value }));
-  };
+  }, []);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setFilters({});
-  };
+  }, []);
 
   return (
     <FilterContext.Provider value={{ filters, updateFilter, clearFilters }}>

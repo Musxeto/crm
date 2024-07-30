@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { leadsFiltersConfig, leadsFieldsConfig } from '../configs/leadsSidebarConfig';
 import { useFilters } from '../contexts/FilterContext';
 
-const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
+const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters, filtersConfig, fieldsConfig }) => {
   const { filters, updateFilter, clearFilters } = useFilters();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -13,22 +12,21 @@ const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
   };
 
   const handleInputChange = (key, value) => {
-    console.log(`Updating filter: ${key} = ${value}`); // Debugging
     updateFilter(key, value);
   };
 
   const handleCheckboxChange = (key) => {
     const newValue = filters[key] === undefined ? '' : undefined;
-    console.log(`Toggling filter: ${key} = ${newValue}`); // Debugging
     updateFilter(key, newValue);
   };
 
   const handleClearFilters = () => {
-    console.log('Clearing filters'); // Debugging
     clearFilters();
   };
 
   const hasActiveFilters = Object.keys(filters).length > 0;
+
+  const filterConfig = [...filtersConfig, ...fieldsConfig].filter(filter => filter.label.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <div className={`fixed left-0 top-0 z-30 w-80 h-full bg-white shadow-md transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -52,35 +50,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onApplyFilters }) => {
           <div>
             <h3 className="font-medium">System Defined Filters</h3>
             <div className="mt-2">
-              {leadsFiltersConfig.filter(filter => filter.label.toLowerCase().includes(searchTerm.toLowerCase())).map(({ key, label }) => (
-                <div key={key} className="mt-2">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={filters[key] !== undefined}
-                      onChange={() => handleCheckboxChange(key)}
-                      className="mr-2"
-                    />
-                    {label}
-                  </label>
-                  {filters[key] !== undefined && (
-                    <input
-                      type="text"
-                      value={filters[key] || ''}
-                      onChange={(e) => handleInputChange(key, e.target.value)}
-                      className="w-full mt-1 p-2 border border-gray-300 rounded"
-                      placeholder={`Enter ${label}`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <h3 className="font-medium">Filter By Fields</h3>
-            <div className="mt-2">
-              {leadsFieldsConfig.filter(field => field.label.toLowerCase().includes(searchTerm.toLowerCase())).map(({ key, label }) => (
+              {filterConfig.map(({ key, label }) => (
                 <div key={key} className="mt-2">
                   <label className="flex items-center">
                     <input

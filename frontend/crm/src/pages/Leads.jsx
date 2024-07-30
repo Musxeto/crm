@@ -1,33 +1,41 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import { leadsFiltersConfig, leadsFieldsConfig } from '../configs/leadsSidebarConfig';
-import ActionsDropdown from '../components/ActionsDropdown';
-import LeadsTable from '../components/LeadsTable';
-import { BiFilter, BiPlus } from 'react-icons/bi';
-import { FilterContext } from '../contexts/FilterContext';
-import leadsData from '../mock-data/leadsdata';
-import { applyFilters } from '../utils/filterUtils';
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import {
+  leadsFiltersConfig,
+  leadsFieldsConfig,
+} from "../configs/leadsSidebarConfig"; // Make sure this import is correct
+import LeadsTable from "../components/LeadsTable";
+import { FilterContext } from "../contexts/FilterContext";
+import leadsData from "../mock-data/leadsdata";
+import { applyFilters } from "../utils/filterUtils";
+import { BiFilter, BiPlus } from "react-icons/bi";
+import ActionsDropdown from "../components/ActionsDropdown";
 
 const Leads = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { filters, updateFilter } = useContext(FilterContext);
+  const { filters, updateFilter, clearFilters } = useContext(FilterContext);
   const [filteredLeads, setFilteredLeads] = useState(leadsData);
 
   useEffect(() => {
-    console.log('Filters applied:', filters); 
+    console.log("Filters updated:", filters);
     const updatedData = applyFilters(leadsData, filters);
     setFilteredLeads(updatedData);
   }, [filters]);
+
+  const handleApplyFilters = (newFilters) => {
+    console.log("Applying filters:", newFilters);
+    updateFilter(newFilters);
+  };
 
   return (
     <div className="flex">
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-        filtersConfig={leadsFiltersConfig}
-        fieldsConfig={leadsFieldsConfig}
-        onApplyFilters={updateFilter}
+        filtersConfig={leadsFiltersConfig} // Updated
+        fieldsConfig={leadsFieldsConfig} // Updated
+        onApplyFilters={handleApplyFilters}
       />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
         <header className="flex items-center justify-between mb-4">

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import {accountsFiltersConfig,accountsFieldsConfig} from '../configs/accountsSidebarCongif'
+import { accountsFiltersConfig, accountsFieldsConfig } from '../configs/accountsSidebarCongif';
 import AccountsTable from '../components/AccountsTable';
 import ActionsDropdown from '../components/ActionsDropdown';
 import { BiFilter, BiPlus } from 'react-icons/bi';
@@ -11,11 +11,14 @@ import { applyFilters } from '../utils/filterUtils';
 
 const Accounts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { filters, updateFilter } = useContext(FilterContext);
+  const { filters, updateFilter, clearFilters } = useContext(FilterContext);
   const [filteredAccounts, setFilteredAccounts] = useState(accountsData);
 
   useEffect(() => {
-    // Apply filters using the utility function
+    clearFilters();
+  }, [clearFilters]);
+
+  useEffect(() => {
     const updatedData = applyFilters(accountsData, filters);
     setFilteredAccounts(updatedData);
   }, [filters]);

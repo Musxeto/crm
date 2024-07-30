@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { tasksFieldsConfig, tasksFiltersConfig } from '../configs/tasksSidebarConfig';
@@ -13,7 +13,11 @@ import { applyFilters } from '../utils/filterUtils';
 const Tasks = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState('table');
-  const { filters, updateFilter } = useContext(FilterContext);
+  const { filters, updateFilter, clearFilters } = useContext(FilterContext);
+
+  useEffect(() => {
+    clearFilters();
+  }, [clearFilters]);
 
   const handleApplyFilters = (filters) => {
     updateFilter(filters);

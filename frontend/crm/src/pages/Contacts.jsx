@@ -11,11 +11,14 @@ import { applyFilters } from '../utils/filterUtils';
 
 const Contacts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { filters, updateFilter } = useContext(FilterContext);
+  const { filters, updateFilter, clearFilters } = useContext(FilterContext);
   const [filteredContacts, setFilteredContacts] = useState(contactsData);
 
   useEffect(() => {
-    // Apply filters using the utility function
+    clearFilters();
+  }, [clearFilters]);
+
+  useEffect(() => {
     const updatedData = applyFilters(contactsData, filters);
     setFilteredContacts(updatedData);
   }, [filters]);
