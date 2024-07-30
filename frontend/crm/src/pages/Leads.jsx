@@ -1,10 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import {
-  leadsFiltersConfig,
-  leadsFieldsConfig,
-} from "../configs/leadsSidebarConfig"; // Make sure this import is correct
+import { leadsFiltersConfig, leadsFieldsConfig } from "../configs/leadsSidebarConfig";
 import LeadsTable from "../components/LeadsTable";
 import { FilterContext } from "../contexts/FilterContext";
 import leadsData from "../mock-data/leadsdata";
@@ -14,18 +11,74 @@ import ActionsDropdown from "../components/ActionsDropdown";
 
 const Leads = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { filters, updateFilter, clearFilters } = useContext(FilterContext);
+  const { filters, updateFilter } = useContext(FilterContext);
   const [filteredLeads, setFilteredLeads] = useState(leadsData);
+  const [selectedLeads, setSelectedLeads] = useState([]);
 
   useEffect(() => {
-    console.log("Filters updated:", filters);
     const updatedData = applyFilters(leadsData, filters);
     setFilteredLeads(updatedData);
   }, [filters]);
 
   const handleApplyFilters = (newFilters) => {
-    console.log("Applying filters:", newFilters);
     updateFilter(newFilters);
+  };
+
+  const handleAction = (action, { field, value }) => {
+    switch (action) {
+      case "Mass Delete":
+        if (selectedLeads.length === 0) {
+          alert("No leads selected for deletion.");
+          return;
+        }
+        const confirmed = window.confirm(`Are you sure you want to delete ${selectedLeads.length} lead(s)?`);
+        if (confirmed) {
+          const remainingLeads = filteredLeads.filter(lead => !selectedLeads.includes(lead.id));
+          setFilteredLeads(remainingLeads);
+          setSelectedLeads([]);
+          console.log("Deleted leads:", selectedLeads);
+        }
+        break;
+
+      case "Mass Update":
+        if (selectedLeads.length === 0) {
+          alert("No leads selected for update.");
+          return;
+        }
+        console.log("Updating leads:", selectedLeads, "with", field, "=", value);
+        break;
+
+      case "Mass Convert":
+        if (selectedLeads.length === 0) {
+          alert("No leads selected for conversion.");
+          return;
+        }
+        console.log("Converting leads:", selectedLeads, "with", field, "=", value);
+        break;
+
+      case "Manage Tags":
+        if (selectedLeads.length === 0) {
+          alert("No leads selected for tag management.");
+          return;
+        }
+        console.log("Managing tags for leads:", selectedLeads, "with", field, "=", value);
+        break;
+
+      case "Mass Email":
+        if (selectedLeads.length === 0) {
+          alert("No leads selected for emailing.");
+          return;
+        }
+        console.log("Sending emails to leads:", selectedLeads, "with", field, "=", value);
+        break;
+
+      default:
+        console.log("Unknown action:", action);
+    }
+  };
+
+  const handleSelectLead = (leadIds) => {
+    setSelectedLeads(leadIds);
   };
 
   return (
@@ -33,8 +86,8 @@ const Leads = () => {
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-        filtersConfig={leadsFiltersConfig} // Updated
-        fieldsConfig={leadsFieldsConfig} // Updated
+        filtersConfig={leadsFiltersConfig}
+        fieldsConfig={leadsFieldsConfig}
         onApplyFilters={handleApplyFilters}
       />
       <div className="flex-1 pt-6 pb-0 px-6 lg:max-w-full md:max-w-screen-md sm:max-w-screen-sm min-h-full">
@@ -46,7 +99,7 @@ const Leads = () => {
             <BiFilter className="w-5 h-5 mr-2" />
             Filters
           </button>
-          <ActionsDropdown />
+          <ActionsDropdown onAction={handleAction} />
           <Link
             to="/leads/create-lead"
             className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
@@ -55,7 +108,11 @@ const Leads = () => {
             Create Lead
           </Link>
         </header>
-        <LeadsTable leads={filteredLeads} />
+        <LeadsTable
+          leads={filteredLeads}
+          selectedLeads={selectedLeads}
+          onSelectLead={handleSelectLead}
+        />
       </div>
     </div>
   );
