@@ -9,10 +9,26 @@ import leadsData from '../mock-data/leadsdata';
 
 const Leads = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [filteredLeads, setFilteredLeads] = useState(leadsData);
+  const [filters, setFilters] = useState({});
 
-  const handleApplyFilters = (filters, filterValues) => {
-    
+  const handleApplyFilters = (filters) => {
+    setFilters(filters);
+  
+    let updatedData = leadsData;
+  
+    if (filters.touchedRecords !== undefined) {
+      updatedData = updatedData.filter(lead => lead.touchedRecords === filters.touchedRecords);
+    }
+    if (filters.untouchedRecords !== undefined) {
+      updatedData = updatedData.filter(lead => lead.untouchedRecords === filters.untouchedRecords);
+    }
+    if (filters.city !== undefined){
+      updatedData = updatedData.filter(lead =>lead.city === filters.city)
+    }
+    setFilteredLeads(updatedData);
   };
+
   return (
     <div className="flex">
       <Sidebar
@@ -40,7 +56,7 @@ const Leads = () => {
             Create Lead
           </Link>
         </header>
-        <LeadsTable leads={leadsData} />
+        <LeadsTable leads={filteredLeads} />
       </div>
     </div>
   );
