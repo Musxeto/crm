@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import { leadsFiltersConfig, leadsFieldsConfig } from '../configs/leadsSidebarConfig';
 import LeadsTable from '../components/LeadsTable';
 import { FilterContext } from '../contexts/FilterContext';
 import leadsData from '../mock-data/leadsdata';
@@ -9,19 +8,17 @@ import { applyFilters } from '../utils/filterUtils';
 import { BiFilter, BiPlus } from 'react-icons/bi';
 import ActionsDropdown from '../components/ActionsDropdown';
 import { toast } from 'react-toastify';
+import {leadsFiltersConfig, leadsFieldsConfig} from '../configs/leadsSidebarConfig'
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmationModal from '../components/ConfirmationModal';
-import MassUpdateModal from '../components/MassUpdateModal';
-import MassConvertModal from '../components/MassConvertModal'; // Import the new component
-
-const Leads = ({ leads, handleMassDelete }) => {
+import MassEmailModal from '../components/MassEmailModal '
+const Leads = ({ leads, handleMassDelete, handleMassEmail }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { filters, updateFilter } = useContext(FilterContext);
   const [filteredLeads, setFilteredLeads] = useState(leadsData);
   const [selectedLeads, setSelectedLeads] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [isConvertModalOpen, setIsConvertModalOpen] = useState(false); // Add state for convert modal
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   useEffect(() => {
     const updatedData = applyFilters(leadsData, filters);
@@ -34,36 +31,52 @@ const Leads = ({ leads, handleMassDelete }) => {
 
   const handleAction = (action) => {
     if (!action) {
-      console.error('Action is undefined');
+      console.error("Action is undefined");
       return;
     }
     switch (action) {
-      case 'Mass Delete':
+      case "Mass Delete":
         if (selectedLeads.length === 0) {
-          toast.error('No leads selected for deletion.');
+          toast.error("No leads selected for deletion.");
           return;
         }
         setIsModalOpen(true);
         break;
 
-      case 'Mass Update':
+      case "Mass Update":
         if (selectedLeads.length === 0) {
-          toast.error('No leads selected for update.');
+          toast.error("No leads selected for update.");
           return;
         }
-        setIsUpdateModalOpen(true);
+        console.log("Updating leads:", selectedLeads);
         break;
 
-      case 'Mass Convert':
+      case "Mass Convert":
         if (selectedLeads.length === 0) {
-          toast.error('No leads selected for conversion.');
+          toast.error("No leads selected for conversion.");
           return;
         }
-        setIsConvertModalOpen(true);
+        console.log("Converting leads:", selectedLeads);
+        break;
+
+      case "Manage Tags":
+        if (selectedLeads.length === 0) {
+          toast.error("No leads selected for tag management.");
+          return;
+        }
+        console.log("Managing tags for leads:", selectedLeads);
+        break;
+
+      case "Mass Email":
+        if (selectedLeads.length === 0) {
+          toast.error("No leads selected for emailing.");
+          return;
+        }
+        setIsEmailModalOpen(true);
         break;
 
       default:
-        console.log('Unknown action:', action);
+        console.log("Unknown action:", action);
     }
   };
 
@@ -77,29 +90,15 @@ const Leads = ({ leads, handleMassDelete }) => {
     const remainingLeads = filteredLeads.filter((lead) => !selectedLeads.includes(lead.id));
     setFilteredLeads(remainingLeads);
     setSelectedLeads([]);
-    toast.success('Deleted selected leads.');
+    toast.success("Deleted selected leads.");
     setIsModalOpen(false);
   };
 
-  const handleUpdateConfirmed = (field, value) => {
-    const updatedLeads = filteredLeads.map((lead) =>
-      selectedLeads.includes(lead.id) ? { ...lead, [field]: value } : lead
-    );
-    setFilteredLeads(updatedLeads);
+  const handleEmailConfirmed = ({ subject, body }) => {
+    handleMassEmail(selectedLeads, subject, body);
     setSelectedLeads([]);
-    toast.success('Updated selected leads.');
-    setIsUpdateModalOpen(false);
-  };
-
-  const handleConvertConfirmed = (convertTo) => {
-    const convertedLeads = selectedLeads.map((leadId) => ({
-      ...filteredLeads.find((lead) => lead.id === leadId),
-      type: convertTo,
-    }));
-    console.log('Converted leads:', convertedLeads);
-    setSelectedLeads([]);
-    toast.success('Converted selected leads to ' + convertTo + '.');
-    setIsConvertModalOpen(false);
+    toast.success("Emails sent successfully.");
+    setIsEmailModalOpen(false);
   };
 
   return (
@@ -142,39 +141,11 @@ const Leads = ({ leads, handleMassDelete }) => {
           onConfirm={handleDeleteConfirmed}
         />
       )}
-      {isUpdateModalOpen && (
-        <MassUpdateModal
-          isOpen={isUpdateModalOpen}
-          onClose={() => setIsUpdateModalOpen(false)}
-          onConfirm={handleUpdateConfirmed}
-          fields={[
-            'leadName',
-            'company',
-            'email',
-            'status',
-            'phone',
-            'mobile',
-            'city',
-            'state',
-            'country',
-            'zipCode',
-            'firstName',
-            'lastName',
-            'annualRevenue',
-            'industry',
-            'campaignSource',
-            'rating',
-            'ownership',
-            'website',
-            'address',
-          ]}
-        />
-      )}
-      {isConvertModalOpen && (
-        <MassConvertModal
-          isOpen={isConvertModalOpen}
-          onClose={() => setIsConvertModalOpen(false)}
-          onConfirm={handleConvertConfirmed}
+      {isEmailModalOpen && (
+        <MassEmailModal
+          isOpen={isEmailModalOpen}
+          onClose={() => setIsEmailModalOpen(false)}
+          onConfirm={handleEmailConfirmed}
         />
       )}
     </div>
