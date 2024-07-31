@@ -27,7 +27,7 @@ const LeadsTable = ({ leads }) => {
   );
 
   return (
-    <div className="w-full  lg:max-w-full sm:max-w-lg sm:max-w-sm overflow-x-auto">
+    <div className="w-full  lg:max-w-full min-w-full overflow-x-auto">
       <Table columns={columns} data={leads} />
     </div>
   );
