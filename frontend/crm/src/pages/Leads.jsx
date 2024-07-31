@@ -1,19 +1,23 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import { leadsFiltersConfig, leadsFieldsConfig } from "../configs/leadsSidebarConfig";
-import LeadsTable from "../components/LeadsTable";
-import { FilterContext } from "../contexts/FilterContext";
-import leadsData from "../mock-data/leadsdata";
-import { applyFilters } from "../utils/filterUtils";
-import { BiFilter, BiPlus } from "react-icons/bi";
-import ActionsDropdown from "../components/ActionsDropdown";
+import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
+import { leadsFiltersConfig, leadsFieldsConfig } from '../configs/leadsSidebarConfig';
+import LeadsTable from '../components/LeadsTable';
+import { FilterContext } from '../contexts/FilterContext';
+import leadsData from '../mock-data/leadsdata';
+import { applyFilters } from '../utils/filterUtils';
+import { BiFilter, BiPlus } from 'react-icons/bi';
+import ActionModal from '../components/ActionModal';
+import { toast } from 'react-toastify';
 
 const Leads = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedLeads, setSelectedLeads] = useState([]);
+  const [actionModalOpen, setActionModalOpen] = useState(false);
+  const [currentAction, setCurrentAction] = useState('');
+
   const { filters, updateFilter } = useContext(FilterContext);
   const [filteredLeads, setFilteredLeads] = useState(leadsData);
-  const [selectedLeads, setSelectedLeads] = useState([]);
 
   useEffect(() => {
     const updatedData = applyFilters(leadsData, filters);
@@ -24,61 +28,24 @@ const Leads = () => {
     updateFilter(newFilters);
   };
 
-  const handleAction = (action, { field, value }) => {
-    switch (action) {
-      case "Mass Delete":
-        if (selectedLeads.length === 0) {
-          alert("No leads selected for deletion.");
-          return;
-        }
-        const confirmed = window.confirm(`Are you sure you want to delete ${selectedLeads.length} lead(s)?`);
-        if (confirmed) {
-          const remainingLeads = filteredLeads.filter(lead => !selectedLeads.includes(lead.id));
-          setFilteredLeads(remainingLeads);
-          setSelectedLeads([]);
-          console.log("Deleted leads:", selectedLeads);
-        }
-        break;
-
-      case "Mass Update":
-        if (selectedLeads.length === 0) {
-          alert("No leads selected for update.");
-          return;
-        }
-        console.log("Updating leads:", selectedLeads, "with", field, "=", value);
-        break;
-
-      case "Mass Convert":
-        if (selectedLeads.length === 0) {
-          alert("No leads selected for conversion.");
-          return;
-        }
-        console.log("Converting leads:", selectedLeads, "with", field, "=", value);
-        break;
-
-      case "Manage Tags":
-        if (selectedLeads.length === 0) {
-          alert("No leads selected for tag management.");
-          return;
-        }
-        console.log("Managing tags for leads:", selectedLeads, "with", field, "=", value);
-        break;
-
-      case "Mass Email":
-        if (selectedLeads.length === 0) {
-          alert("No leads selected for emailing.");
-          return;
-        }
-        console.log("Sending emails to leads:", selectedLeads, "with", field, "=", value);
-        break;
-
-      default:
-        console.log("Unknown action:", action);
-    }
+  const handleAction = (action) => {
+    setCurrentAction(action);
+    setActionModalOpen(true);
   };
 
-  const handleSelectLead = (leadIds) => {
-    setSelectedLeads(leadIds);
+  const handleConfirmAction = ({ field, value }) => {
+    switch (currentAction) {
+      case 'Mass Delete':
+        const remainingLeads = filteredLeads.filter(lead => !selectedLeads.includes(lead.id));
+        setFilteredLeads(remainingLeads);
+        toast.success(`${selectedLeads.length} lead(s) deleted successfully!`);
+        break;
+      // Handle other actions...
+      default:
+        break;
+    }
+    setSelectedLeads([]);
+    setActionModalOpen(false);
   };
 
   return (
@@ -99,7 +66,16 @@ const Leads = () => {
             <BiFilter className="w-5 h-5 mr-2" />
             Filters
           </button>
-          <ActionsDropdown onAction={handleAction} />
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => handleAction('Mass Delete')}
+              className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
+              disabled={selectedLeads.length === 0}
+            >
+              Delete
+            </button>
+            {/* Add other action buttons here */}
+          </div>
           <Link
             to="/leads/create-lead"
             className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
@@ -110,8 +86,13 @@ const Leads = () => {
         </header>
         <LeadsTable
           leads={filteredLeads}
-          selectedLeads={selectedLeads}
-          onSelectLead={handleSelectLead}
+          onSelectLead={setSelectedLeads}
+        />
+        <ActionModal
+          isOpen={actionModalOpen}
+          action={currentAction}
+          onClose={() => setActionModalOpen(false)}
+          onConfirm={handleConfirmAction}
         />
       </div>
     </div>

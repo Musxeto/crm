@@ -13,7 +13,7 @@ const generateKanbanColumns = (data) => {
     'Closed Lost': []
   };
 
-  deals.forEach(deal => {
+  data.forEach(deal => {
     const column = columns[deal.stage];
     if (column) {
       column.push({

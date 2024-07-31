@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import AllRoutes from "./routes/AllRoutes";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter } from "react-router-dom";
 import {
   Chart as ChartJS,
@@ -34,6 +36,7 @@ export default function App() {
         <BrowserRouter>
           <Navbar />
           <AllRoutes />
+          <ToastContainer />
         </BrowserRouter>
       </div>
     </FilterProvider>
