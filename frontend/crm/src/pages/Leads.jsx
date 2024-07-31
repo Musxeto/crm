@@ -10,8 +10,9 @@ import { BiFilter, BiPlus } from 'react-icons/bi';
 import ActionsDropdown from '../components/ActionsDropdown';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ConfirmationModal from '../components/ConfirmationModal'; // Create this component
-import MassUpdateModal from '../components/MassUpdateModal'; // Import the new component
+import ConfirmationModal from '../components/ConfirmationModal';
+import MassUpdateModal from '../components/MassUpdateModal';
+import MassConvertModal from '../components/MassConvertModal'; // Import the new component
 
 const Leads = ({ leads, handleMassDelete }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -20,6 +21,7 @@ const Leads = ({ leads, handleMassDelete }) => {
   const [selectedLeads, setSelectedLeads] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isConvertModalOpen, setIsConvertModalOpen] = useState(false); // Add state for convert modal
 
   useEffect(() => {
     const updatedData = applyFilters(leadsData, filters);
@@ -57,23 +59,7 @@ const Leads = ({ leads, handleMassDelete }) => {
           toast.error('No leads selected for conversion.');
           return;
         }
-        console.log('Converting leads:', selectedLeads, 'with', field, '=', value);
-        break;
-
-      case 'Manage Tags':
-        if (selectedLeads.length === 0) {
-          toast.error('No leads selected for tag management.');
-          return;
-        }
-        console.log('Managing tags for leads:', selectedLeads, 'with', field, '=', value);
-        break;
-
-      case 'Mass Email':
-        if (selectedLeads.length === 0) {
-          toast.error('No leads selected for emailing.');
-          return;
-        }
-        console.log('Sending emails to leads:', selectedLeads, 'with', field, '=', value);
+        setIsConvertModalOpen(true);
         break;
 
       default:
@@ -103,6 +89,17 @@ const Leads = ({ leads, handleMassDelete }) => {
     setSelectedLeads([]);
     toast.success('Updated selected leads.');
     setIsUpdateModalOpen(false);
+  };
+
+  const handleConvertConfirmed = (convertTo) => {
+    const convertedLeads = selectedLeads.map((leadId) => ({
+      ...filteredLeads.find((lead) => lead.id === leadId),
+      type: convertTo,
+    }));
+    console.log('Converted leads:', convertedLeads);
+    setSelectedLeads([]);
+    toast.success('Converted selected leads to ' + convertTo + '.');
+    setIsConvertModalOpen(false);
   };
 
   return (
@@ -171,6 +168,13 @@ const Leads = ({ leads, handleMassDelete }) => {
             'website',
             'address',
           ]}
+        />
+      )}
+      {isConvertModalOpen && (
+        <MassConvertModal
+          isOpen={isConvertModalOpen}
+          onClose={() => setIsConvertModalOpen(false)}
+          onConfirm={handleConvertConfirmed}
         />
       )}
     </div>
