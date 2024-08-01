@@ -87,10 +87,15 @@ const Deals = () => {
   };
 
   const handleSelectDeal = (dealId) => {
-    setSelectedDeals((prev) =>
-      prev.includes(dealId) ? prev.filter((id) => id !== dealId) : [...prev, dealId]
-    );
+    console.log('Selected deal ID:', dealId); 
+    setSelectedDeals((prev) => {
+      const isSelected = prev.includes(dealId);
+      console.log('Previously selected deals:', prev); 
+      console.log('Is deal currently selected?', isSelected); 
+      return isSelected ? prev.filter((id) => id !== dealId) : [...prev, dealId];
+    });
   };
+  
 
   const handleDeleteConfirmed = () => {
     const remainingDeals = filteredDeals.filter((deal) => !selectedDeals.includes(deal.id));

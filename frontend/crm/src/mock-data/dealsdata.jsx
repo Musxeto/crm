@@ -1,6 +1,6 @@
 const dealsData = [
   {
-    id: 1, // Add unique ID for each deal
+    id: 1,
     dealName: 'Playboi Carti Endorsement',
     stage: 'Qualification',
     amount: '$480,000',
@@ -33,7 +33,8 @@ const dealsData = [
     leadStatus: 'Active',
     leadSource: 'Cold Call',
   },
-    {
+  {
+    id: 2,
     dealName: 'Travis Scott Concert',
     stage: 'Negotiation',
     amount: '$500,000',
@@ -48,6 +49,7 @@ const dealsData = [
     modifiedTime: '2024-07-20',
   },
   {
+    id: 3,
     dealName: 'Lil Uzi Vert Merchandise',
     stage: 'Prospecting',
     amount: '$200,000',
@@ -62,6 +64,7 @@ const dealsData = [
     modifiedTime: '2024-07-22',
   },
   {
+    id: 4,
     dealName: 'Post Malone Tour Sponsorship',
     stage: 'Proposal',
     amount: '$750,000',
@@ -76,6 +79,7 @@ const dealsData = [
     modifiedTime: '2024-07-24',
   },
   {
+    id: 5,
     dealName: 'Cardi B Fashion Line',
     stage: 'Closed Won',
     amount: '$1,000,000',
@@ -90,6 +94,7 @@ const dealsData = [
     modifiedTime: '2024-07-20',
   },
   {
+    id: 6,
     dealName: '21 Savage Endorsement',
     stage: 'Qualification',
     amount: '$300,000',
@@ -104,6 +109,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 7,
     dealName: 'Migos Advertising Campaign',
     stage: 'Closed Lost',
     amount: '$600,000',
@@ -118,6 +124,7 @@ const dealsData = [
     modifiedTime: '2024-07-18',
   },
   {
+    id: 8,
     dealName: 'Lil Baby Collaboration',
     stage: 'Proposal',
     amount: '$450,000',
@@ -132,6 +139,7 @@ const dealsData = [
     modifiedTime: '2024-07-23',
   },
   {
+    id: 9,
     dealName: 'DaBaby Music Video',
     stage: 'Negotiation',
     amount: '$350,000',
@@ -146,6 +154,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 10,
     dealName: 'Future Album Release',
     stage: 'Prospecting',
     amount: '$900,000',
@@ -160,6 +169,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 11,
     dealName: 'Young Thug Brand Deal',
     stage: 'Qualification',
     amount: '$700,000',
@@ -174,6 +184,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 12,
     dealName: 'Roddy Ricch Sponsorship',
     stage: 'Proposal',
     amount: '$400,000',
@@ -188,6 +199,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 13,
     dealName: 'Lil Nas X Marketing Campaign',
     stage: 'Negotiation',
     amount: '$550,000',
@@ -202,6 +214,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 14,
     dealName: 'Trippie Redd Tour',
     stage: 'Prospecting',
     amount: '$600,000',
@@ -216,6 +229,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 15,
     dealName: 'Juice WRLD Tribute Album',
     stage: 'Closed Won',
     amount: '$1,200,000',
@@ -230,6 +244,7 @@ const dealsData = [
     modifiedTime: '2024-07-22',
   },
   {
+    id: 16,
     dealName: 'Nav Merchandise Deal',
     stage: 'Proposal',
     amount: '$320,000',
@@ -244,6 +259,7 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
   {
+    id: 17,
     dealName: 'A Boogie wit da Hoodie Advertising',
     stage: 'Negotiation',
     amount: '$370,000',
@@ -258,4 +274,5 @@ const dealsData = [
     modifiedTime: '2024-07-25',
   },
 ];
-export default dealsData
+
+export default dealsData;

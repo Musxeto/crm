@@ -2,8 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Table from './Table';
 
-const AccountsTable = ({ accounts }) => {
+const AccountsTable = ({ accounts, selectedAccounts, onSelectAccount }) => {
   const columns = React.useMemo(() => [
+    { Header: 'Select', accessor: 'select', Cell: ({ row }) => (
+      <input
+        type="checkbox"
+        checked={selectedAccounts.includes(row.original.id)}
+        onChange={() => onSelectAccount(row.original.id)}
+      />
+    )},
     { Header: 'Account Name', accessor: 'accountName' },
     { Header: 'Account Owner', accessor: 'accountOwner' },
     { Header: 'Industry', accessor: 'industry' },
@@ -17,13 +24,15 @@ const AccountsTable = ({ accounts }) => {
     { Header: 'Employees', accessor: 'employees' },
     { Header: 'Created Time', accessor: 'createdTime' },
     { Header: 'Modified Time', accessor: 'modifiedTime' },
-  ], []);
+  ], [selectedAccounts, onSelectAccount]);
 
   return <Table columns={columns} data={accounts} />;
 };
 
 AccountsTable.propTypes = {
   accounts: PropTypes.array.isRequired,
+  selectedAccounts: PropTypes.array.isRequired,
+  onSelectAccount: PropTypes.func.isRequired,
 };
 
 export default AccountsTable;

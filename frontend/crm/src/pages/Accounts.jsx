@@ -1,20 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import AccountsTable from '../components/AccountsTable';
-import ActionsDropdown from '../components/ActionsDropdown';
-import { BiFilter, BiPlus, BiTable, BiLayout } from 'react-icons/bi';
-import { FilterContext } from '../contexts/FilterContext';
-import accountsData from '../mock-data/accountsdata';
-import { applyFilters } from '../utils/filterUtils';
-import ConfirmationModal from '../components/ConfirmationModal';
-import MassUpdateModal from '../components/MassUpdateModal';
-import MassEmailModal from '../components/MassEmailModal';
-import { toast } from 'react-toastify';
-import {accountsFiltersConfig,accountsFieldsConfig} from '../configs/accountsSidebarConfig'
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import AccountsTable from "../components/AccountsTable";
+import ActionsDropdown from "../components/ActionsDropdown";
+import { BiFilter, BiPlus, BiTable, BiLayout } from "react-icons/bi";
+import { FilterContext } from "../contexts/FilterContext";
+import accountsData from "../mock-data/accountsdata";
+import { applyFilters } from "../utils/filterUtils";
+import ConfirmationModal from "../components/ConfirmationModal";
+import MassUpdateModal from "../components/MassUpdateModal";
+import MassEmailModal from "../components/MassEmailModal";
+import { toast } from "react-toastify";
+import {
+  accountsFiltersConfig,
+  accountsFieldsConfig,
+} from "../configs/accountsSidebarConfig";
 const Accounts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [viewMode, setViewMode] = useState('table');
   const { filters, updateFilter, clearFilters } = useContext(FilterContext);
   const [filteredAccounts, setFilteredAccounts] = useState(accountsData);
   const [selectedAccounts, setSelectedAccounts] = useState([]);
@@ -35,66 +37,68 @@ const Accounts = () => {
     updateFilter(filters);
   };
 
-  const toggleViewMode = () => {
-    setViewMode(viewMode === 'table' ? 'kanban' : 'table');
-  };
-
   const handleAction = (action) => {
     if (!action) {
-      console.error('Action is undefined');
+      console.error("Action is undefined");
       return;
     }
     switch (action) {
-      case 'Mass Delete':
+      case "Mass Delete":
         if (selectedAccounts.length === 0) {
-          toast.error('No accounts selected for deletion.');
+          toast.error("No accounts selected for deletion.");
           return;
         }
         setIsModalOpen(true);
         break;
 
-      case 'Mass Update':
+      case "Mass Update":
         if (selectedAccounts.length === 0) {
-          toast.error('No accounts selected for update.');
+          toast.error("No accounts selected for update.");
           return;
         }
         setIsUpdateModalOpen(true);
         break;
 
-      case 'Mass Email':
+      case "Mass Email":
         if (selectedAccounts.length === 0) {
-          toast.error('No accounts selected for email.');
+          toast.error("No accounts selected for email.");
           return;
         }
         setIsEmailModalOpen(true);
         break;
 
       default:
-        console.log('Unknown action:', action);
+        console.log("Unknown action:", action);
     }
   };
 
   const handleSelectAccount = (accountId) => {
     setSelectedAccounts((prev) =>
-      prev.includes(accountId) ? prev.filter((id) => id !== accountId) : [...prev, accountId]
+      prev.includes(accountId)
+        ? prev.filter((id) => id !== accountId)
+        : [...prev, accountId]
     );
   };
 
   const handleDeleteConfirmed = () => {
-    const remainingAccounts = filteredAccounts.filter((account) => !selectedAccounts.includes(account.id));
+    const remainingAccounts = filteredAccounts.filter(
+      (account) => !selectedAccounts.includes(account.id)
+    );
     setFilteredAccounts(remainingAccounts);
     setSelectedAccounts([]);
-    toast.success('Deleted selected accounts.');
+    toast.success("Deleted selected accounts.");
     setIsModalOpen(false);
   };
 
   const handleUpdateConfirmed = (field, value) => {
     const updatedAccounts = filteredAccounts.map((account) =>
-      selectedAccounts.includes(account.id) ? { ...account, [field]: value } : account
+      selectedAccounts.includes(account.id)
+        ? { ...account, [field]: value }
+        : account
     );
     setFilteredAccounts(updatedAccounts);
     setSelectedAccounts([]);
-    toast.success('Updated selected accounts.');
+    toast.success("Updated selected accounts.");
     setIsUpdateModalOpen(false);
   };
 
@@ -118,21 +122,9 @@ const Accounts = () => {
           </button>
           <ActionsDropdown onAction={handleAction} />
           <div className="flex items-center space-x-2">
-            <button
-              onClick={toggleViewMode}
-              className="p-2 text-gray-500 hover:text-gray-700 flex items-center"
-            >
-              {viewMode === 'table' ? (
-                <>
-                  <BiLayout className="w-5 h-5 mr-2" />
-                  Kanban View
-                </>
-              ) : (
-                <>
-                  <BiTable className="w-5 h-5 mr-2" />
-                  Table View
-                </>
-              )}
+            <button className="p-2 text-gray-500 hover:text-gray-700 flex items-center">
+              <BiTable className="w-5 h-5 mr-2" />
+              Table View
             </button>
             <Link
               to="/accounts/create-account"
@@ -142,12 +134,12 @@ const Accounts = () => {
               Create Account
             </Link>
           </div>
-        </header> 
-          <AccountsTable
-            accounts={filteredAccounts}
-            selectedAccounts={selectedAccounts}
-            onSelectAccount={handleSelectAccount}
-          />
+        </header>
+        <AccountsTable
+          accounts={filteredAccounts}
+          selectedAccounts={selectedAccounts}
+          onSelectAccount={handleSelectAccount}
+        />
       </div>
       {isModalOpen && (
         <ConfirmationModal
@@ -162,12 +154,12 @@ const Accounts = () => {
           onClose={() => setIsUpdateModalOpen(false)}
           onConfirm={handleUpdateConfirmed}
           fields={[
-            'accountName',
-            'industry',
-            'status',
-            'revenue',
-            'address',
-            'phone',
+            "accountName",
+            "industry",
+            "status",
+            "revenue",
+            "address",
+            "phone",
           ]}
         />
       )}
@@ -175,8 +167,9 @@ const Accounts = () => {
         <MassEmailModal
           isOpen={isEmailModalOpen}
           onClose={() => setIsEmailModalOpen(false)}
-          recipients={selectedAccounts.map((accountId) =>
-            filteredAccounts.find((account) => account.id === accountId).email
+          recipients={selectedAccounts.map(
+            (accountId) =>
+              filteredAccounts.find((account) => account.id === accountId).email
           )}
         />
       )}

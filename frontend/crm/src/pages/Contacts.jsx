@@ -1,21 +1,23 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import { contactsFieldsConfig, contactsFiltersConfig } from '../configs/contactsSidebarConfig';
-import ContactsTable from '../components/ContactsTable';
-import ActionsDropdown from '../components/ActionsDropdown';
-import { BiFilter, BiPlus, BiTable, BiLayout } from 'react-icons/bi';
-import { FilterContext } from '../contexts/FilterContext';
-import contactsData from '../mock-data/contactsdata';
-import { applyFilters } from '../utils/filterUtils';
-import ConfirmationModal from '../components/ConfirmationModal';
-import MassUpdateModal from '../components/MassUpdateModal';
-import MassEmailModal from '../components/MassEmailModal';
-import { toast } from 'react-toastify';
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import {
+  contactsFieldsConfig,
+  contactsFiltersConfig,
+} from "../configs/contactsSidebarConfig";
+import ContactsTable from "../components/ContactsTable";
+import ActionsDropdown from "../components/ActionsDropdown";
+import { BiFilter, BiPlus, BiTable } from "react-icons/bi";
+import { FilterContext } from "../contexts/FilterContext";
+import contactsData from "../mock-data/contactsdata";
+import { applyFilters } from "../utils/filterUtils";
+import ConfirmationModal from "../components/ConfirmationModal";
+import MassUpdateModal from "../components/MassUpdateModal";
+import MassEmailModal from "../components/MassEmailModal";
+import { toast } from "react-toastify";
 
 const Contacts = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [viewMode, setViewMode] = useState('table');
   const { filters, updateFilter, clearFilters } = useContext(FilterContext);
   const [filteredContacts, setFilteredContacts] = useState(contactsData);
   const [selectedContacts, setSelectedContacts] = useState([]);
@@ -36,66 +38,68 @@ const Contacts = () => {
     updateFilter(filters);
   };
 
-  const toggleViewMode = () => {
-    setViewMode(viewMode === 'table' ? 'kanban' : 'table');
-  };
-
   const handleAction = (action) => {
     if (!action) {
-      console.error('Action is undefined');
+      console.error("Action is undefined");
       return;
     }
     switch (action) {
-      case 'Mass Delete':
+      case "Mass Delete":
         if (selectedContacts.length === 0) {
-          toast.error('No contacts selected for deletion.');
+          toast.error("No contacts selected for deletion.");
           return;
         }
         setIsModalOpen(true);
         break;
 
-      case 'Mass Update':
+      case "Mass Update":
         if (selectedContacts.length === 0) {
-          toast.error('No contacts selected for update.');
+          toast.error("No contacts selected for update.");
           return;
         }
         setIsUpdateModalOpen(true);
         break;
 
-      case 'Mass Email':
+      case "Mass Email":
         if (selectedContacts.length === 0) {
-          toast.error('No contacts selected for email.');
+          toast.error("No contacts selected for email.");
           return;
         }
         setIsEmailModalOpen(true);
         break;
 
       default:
-        console.log('Unknown action:', action);
+        console.log("Unknown action:", action);
     }
   };
 
   const handleSelectContact = (contactId) => {
     setSelectedContacts((prev) =>
-      prev.includes(contactId) ? prev.filter((id) => id !== contactId) : [...prev, contactId]
+      prev.includes(contactId)
+        ? prev.filter((id) => id !== contactId)
+        : [...prev, contactId]
     );
   };
 
   const handleDeleteConfirmed = () => {
-    const remainingContacts = filteredContacts.filter((contact) => !selectedContacts.includes(contact.id));
+    const remainingContacts = filteredContacts.filter(
+      (contact) => !selectedContacts.includes(contact.id)
+    );
     setFilteredContacts(remainingContacts);
     setSelectedContacts([]);
-    toast.success('Deleted selected contacts.');
+    toast.success("Deleted selected contacts.");
     setIsModalOpen(false);
   };
 
   const handleUpdateConfirmed = (field, value) => {
     const updatedContacts = filteredContacts.map((contact) =>
-      selectedContacts.includes(contact.id) ? { ...contact, [field]: value } : contact
+      selectedContacts.includes(contact.id)
+        ? { ...contact, [field]: value }
+        : contact
     );
     setFilteredContacts(updatedContacts);
     setSelectedContacts([]);
-    toast.success('Updated selected contacts.');
+    toast.success("Updated selected contacts.");
     setIsUpdateModalOpen(false);
   };
 
@@ -120,20 +124,10 @@ const Contacts = () => {
           <ActionsDropdown onAction={handleAction} />
           <div className="flex items-center space-x-2">
             <button
-              onClick={toggleViewMode}
               className="p-2 text-gray-500 hover:text-gray-700 flex items-center"
             >
-              {viewMode === 'table' ? (
-                <>
-                  <BiLayout className="w-5 h-5 mr-2" />
-                  Kanban View
-                </>
-              ) : (
-                <>
-                  <BiTable className="w-5 h-5 mr-2" />
-                  Table View
-                </>
-              )}
+              <BiTable className="w-5 h-5 mr-2" />
+              Table View
             </button>
             <Link
               to="/contacts/create-contact"
@@ -144,11 +138,11 @@ const Contacts = () => {
             </Link>
           </div>
         </header>
-          <ContactsTable
-            contacts={filteredContacts}
-            selectedContacts={selectedContacts}
-            onSelectContact={handleSelectContact}
-          />
+        <ContactsTable
+          contacts={filteredContacts}
+          selectedContacts={selectedContacts}
+          onSelectContact={handleSelectContact}
+        />
       </div>
       {isModalOpen && (
         <ConfirmationModal
@@ -163,12 +157,12 @@ const Contacts = () => {
           onClose={() => setIsUpdateModalOpen(false)}
           onConfirm={handleUpdateConfirmed}
           fields={[
-            'contactName',
-            'email',
-            'phone',
-            'address',
-            'company',
-            'jobTitle',
+            "contactName",
+            "email",
+            "phone",
+            "address",
+            "company",
+            "jobTitle",
           ]}
         />
       )}
@@ -176,8 +170,9 @@ const Contacts = () => {
         <MassEmailModal
           isOpen={isEmailModalOpen}
           onClose={() => setIsEmailModalOpen(false)}
-          recipients={selectedContacts.map((contactId) =>
-            filteredContacts.find((contact) => contact.id === contactId).email
+          recipients={selectedContacts.map(
+            (contactId) =>
+              filteredContacts.find((contact) => contact.id === contactId).email
           )}
         />
       )}
