@@ -12,8 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmationModal from '../components/ConfirmationModal';
 import MassUpdateModal from '../components/MassUpdateModal';
-import MassConvertModal from '../components/MassConvertModal';
-import MassEmailModal from '../components/MassEmailModal'; // Import the new component
+import MassConvertModal from '../components/MassConvertModal'; // Import the new component
 
 const Leads = ({ leads, handleMassDelete }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -22,8 +21,7 @@ const Leads = ({ leads, handleMassDelete }) => {
   const [selectedLeads, setSelectedLeads] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [isConvertModalOpen, setIsConvertModalOpen] = useState(false);
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false); // Add state for email modal
+  const [isConvertModalOpen, setIsConvertModalOpen] = useState(false); // Add state for convert modal
 
   useEffect(() => {
     const updatedData = applyFilters(leadsData, filters);
@@ -62,14 +60,6 @@ const Leads = ({ leads, handleMassDelete }) => {
           return;
         }
         setIsConvertModalOpen(true);
-        break;
-
-      case 'Mass Email':
-        if (selectedLeads.length === 0) {
-          toast.error('No leads selected for email.');
-          return;
-        }
-        setIsEmailModalOpen(true);
         break;
 
       default:
@@ -185,15 +175,6 @@ const Leads = ({ leads, handleMassDelete }) => {
           isOpen={isConvertModalOpen}
           onClose={() => setIsConvertModalOpen(false)}
           onConfirm={handleConvertConfirmed}
-        />
-      )}
-      {isEmailModalOpen && (
-        <MassEmailModal
-          isOpen={isEmailModalOpen}
-          onClose={() => setIsEmailModalOpen(false)}
-          recipients={selectedLeads.map((leadId) =>
-            filteredLeads.find((lead) => lead.id === leadId).email
-          )}
         />
       )}
     </div>
