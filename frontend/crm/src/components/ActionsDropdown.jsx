@@ -23,7 +23,7 @@ const ActionsDropdown = ({ onAction }) => {
       {isOpen && (
         <div className="absolute right-0 mt-2 bg-white shadow-lg rounded z-50 w-64 sm:w-48">
           <ul className="list-none p-0 m-0">
-            {['Mass Delete', 'Mass Update', 'Mass Convert', 'Manage Tags', 'Mass Email'].map(action => (
+            {['Mass Delete', 'Mass Update', 'Mass Convert','Mass Email'].map(action => (
               <li key={action}>
                 <button
                   onClick={() => handleAction(action)}
