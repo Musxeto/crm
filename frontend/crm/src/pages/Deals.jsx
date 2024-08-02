@@ -178,7 +178,7 @@ const Deals = () => {
             onSelectDeal={handleSelectDeal}
           />
         ) : (
-          <DealsKanban />
+          <DealsKanban data={filteredDeals}/>
         )}
       </div>
       {isModalOpen && (
