@@ -49,13 +49,12 @@ const CreateLeadPage = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
+    e.preventDefault();W
     console.log(formData);
     toast.success('Lead created successfully!');
     setTimeout(() => {
       navigate('/leads');
-    }, 2000); // Navigate back after 2 seconds
+    }, 2000); 
   };
 
   return (

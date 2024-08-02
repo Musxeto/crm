@@ -10,7 +10,6 @@ const ReportForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle report creation logic here
     console.log('Report Name:', reportName);
     console.log('Selected Fields:', selectedFields);
     console.log('Filters:', filters);
