@@ -1,36 +1,112 @@
 import React, { useState } from 'react';
-import ReportFieldsSelector from './ReportFieldsSelector';
-import ReportFilters from './ReportFilters';
-import ReportPreview from './ReportPreview';
+import { toast } from 'react-toastify';
+import ReportPreviewModal from './ReportPreviewModal';
+import prepareReportData from './prepareReportData';
 
-const ReportForm = () => {
-  const [reportName, setReportName] = useState('');
-  const [selectedFields, setSelectedFields] = useState([]);
-  const [filters, setFilters] = useState([]);
+const ReportForm = ({ onReportCreation }) => {
+  const [formData, setFormData] = useState({
+    reportName: '',
+    reportDescription: '',
+    reportType: 'Leads',
+    chartType: 'Bar'
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chartData, setChartData] = useState([]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Report Name:', reportName);
-    console.log('Selected Fields:', selectedFields);
-    console.log('Filters:', filters);
+
+    if (!formData.reportName) {
+      toast.error('Please enter a report name');
+      return;
+    }
+
+    const data = prepareReportData(formData.reportType);
+    setChartData(data);
+
+    if (typeof onReportCreation === 'function') {
+      onReportCreation(formData);
+    } else {
+      console.error('onReportCreation prop is not a function');
+    }
+
+    setIsModalOpen(true);
+    toast.success('Report saved successfully');
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium">Report Name</label>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-6">
+        <label className="block text-gray-700">Report Name</label>
         <input
           type="text"
-          value={reportName}
-          onChange={(e) => setReportName(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-          required
+          name="reportName"
+          value={formData.reportName}
+          onChange={handleChange}
+          className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
         />
       </div>
-      <ReportFieldsSelector selectedFields={selectedFields} setSelectedFields={setSelectedFields} />
-      <ReportFilters filters={filters} setFilters={setFilters} />
-      <ReportPreview selectedFields={selectedFields} filters={filters} />
-      <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Create Report</button>
+      <div className="mb-6">
+        <label className="block text-gray-700">Description</label>
+        <textarea
+          name="reportDescription"
+          value={formData.reportDescription}
+          onChange={handleChange}
+          rows="4"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md"
+          placeholder="Enter description"
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-700">Report Type</label>
+        <select
+          name="reportType"
+          value={formData.reportType}
+          onChange={handleChange}
+          className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        >
+          <option value="Leads">Leads</option>
+          <option value="Deals">Deals</option>
+          <option value="Tasks">Tasks</option>
+          <option value="Accounts">Accounts</option>
+        </select>
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-700">Chart Type</label>
+        <select
+          name="chartType"
+          value={formData.chartType}
+          onChange={handleChange}
+          className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        >
+          <option value="Bar">Bar</option>
+          <option value="Line">Line</option>
+          <option value="Pie">Pie</option>
+        </select>
+      </div>
+      <button
+        type="submit"
+        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+      >
+        Save
+      </button>
+
+      <ReportPreviewModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        reportData={formData}
+        chartType={formData.chartType}
+        chartData={chartData}
+      />
     </form>
   );
 };

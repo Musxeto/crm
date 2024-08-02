@@ -1,4 +1,3 @@
-// src/pages/Reports.jsx
 import React from 'react';
 import ReportSummary from '../components/ReportSummary';
 import ReportsQuickAccess from '../components/ReportsQuickAccess';

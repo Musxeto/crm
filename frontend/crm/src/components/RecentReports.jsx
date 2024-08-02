@@ -1,4 +1,3 @@
-// src/components/RecentReports.jsx
 import React from 'react';
 
 const RecentReports = ({ data }) => {
