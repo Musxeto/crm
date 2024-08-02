@@ -33,9 +33,18 @@ const CreateAccountPage = () => {
     description: '',
   });
 
+  const [accountImage, setAccountImage] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAccountImage(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -59,14 +68,17 @@ const CreateAccountPage = () => {
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Account Image</h2>
           <div className="flex items-center border border-gray-300 p-4 rounded-md">
             <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-full">
-              {/* Placeholder for image */}
-              <span className="text-gray-500">Image</span>
+              {accountImage ? (
+                <img src={accountImage} alt="Account" className="w-24 h-24 rounded-full object-cover" />
+              ) : (
+                <span className="text-gray-500">Image</span>
+              )}
             </div>
             <input
               type="file"
               name="accountImage"
               className="ml-4"
-              // onChange={handleChange} // Uncomment if handling image upload
+              onChange={handleImageChange}
             />
           </div>
         </div>
@@ -90,6 +102,7 @@ const CreateAccountPage = () => {
               value={formData.accountName}
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+              required
             />
           </div>
           <div>
@@ -237,106 +250,29 @@ const CreateAccountPage = () => {
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Address Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-gray-700">Billing Street</label>
-              <input
-                type="text"
-                name="billingStreet"
-                value={formData.billingStreet}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Billing City</label>
-              <input
-                type="text"
-                name="billingCity"
-                value={formData.billingCity}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Billing State</label>
-              <input
-                type="text"
-                name="billingState"
-                value={formData.billingState}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Billing Code</label>
-              <input
-                type="text"
-                name="billingCode"
-                value={formData.billingCode}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Billing Country</label>
-              <input
-                type="text"
-                name="billingCountry"
-                value={formData.billingCountry}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Shipping Street</label>
-              <input
-                type="text"
-                name="shippingStreet"
-                value={formData.shippingStreet}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Shipping City</label>
-              <input
-                type="text"
-                name="shippingCity"
-                value={formData.shippingCity}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Shipping State</label>
-              <input
-                type="text"
-                name="shippingState"
-                value={formData.shippingState}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Shipping Code</label>
-              <input
-                type="text"
-                name="shippingCode"
-                value={formData.shippingCode}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Shipping Country</label>
-              <input
-                type="text"
-                name="shippingCountry"
-                value={formData.shippingCountry}
-                onChange={handleChange}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
+            {[
+              { label: 'Billing Street', name: 'billingStreet' },
+              { label: 'Billing City', name: 'billingCity' },
+              { label: 'Billing State', name: 'billingState' },
+              { label: 'Billing Code', name: 'billingCode' },
+              { label: 'Billing Country', name: 'billingCountry' },
+              { label: 'Shipping Street', name: 'shippingStreet' },
+              { label: 'Shipping City', name: 'shippingCity' },
+              { label: 'Shipping State', name: 'shippingState' },
+              { label: 'Shipping Code', name: 'shippingCode' },
+              { label: 'Shipping Country', name: 'shippingCountry' },
+            ].map(({ label, name }) => (
+              <div key={name}>
+                <label className="block text-gray-700">{label}</label>
+                <input
+                  type="text"
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
